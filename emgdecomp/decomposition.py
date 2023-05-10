@@ -49,7 +49,7 @@ class Components:
         return np.array([component.threshold for component in self.data], dtype=np.float64)
 
     def get_unit_indexes(self) -> np.ndarray:
-        return np.array([component.unit_index for component in self.data], dtype=int32)
+        return np.array([component.unit_index for component in self.data], dtype=np.int32)
 
     def get_waveforms(self) -> Dict[int, np.ndarray]:
         return {component.unit_index: component.waveform for component in self.data}
@@ -844,8 +844,8 @@ class EmgDecomposition(object):
         return np.dtype([
             ('source_idx', int),
             ('discharge_samples', int),
-            ('discharge_seconds', np.float),
-            ('squared_amplitude', np.float),
+            ('discharge_seconds', float),
+            ('squared_amplitude', float),
         ])
 
     def _populate_results(self, sources: np.ndarray, mean_waveforms: Dict[int, np.ndarray], thresholds: np.ndarray):
