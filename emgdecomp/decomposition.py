@@ -49,7 +49,7 @@ class Components:
         return np.array([component.threshold for component in self.data], dtype=np.float64)
 
     def get_unit_indexes(self) -> np.ndarray:
-        return np.array([component.unit_index for component in self.data], dtype=np.int32)
+        return np.array([component.unit_index for component in self.data], dtype=int32)
 
     def get_waveforms(self) -> Dict[int, np.ndarray]:
         return {component.unit_index: component.waveform for component in self.data}
@@ -842,8 +842,8 @@ class EmgDecomposition(object):
 
     def _firings_dtype(self):
         return np.dtype([
-            ('source_idx', np.int),
-            ('discharge_samples', np.int),
+            ('source_idx', int),
+            ('discharge_samples', int),
             ('discharge_seconds', np.float),
             ('squared_amplitude', np.float),
         ])
@@ -914,8 +914,8 @@ class EmgDecomposition(object):
                                                        self.params.extension_factor)]
 
                 waveforms = np.zeros((len(discharges), num_channels, wf_samples), dtype=np.float64)
-                aligned_channel_indices = np.empty((len(discharges),), dtype=np.int)
-                emg_data_indices = np.empty((len(discharges),), dtype=np.int)
+                aligned_channel_indices = np.empty((len(discharges),), dtype=int)
+                emg_data_indices = np.empty((len(discharges),), dtype=int)
                 num_discharges = 0
                 for discharge_idx, discharge in enumerate(discharges):
                     mask = np.arange(wf_samples) - wf_pre_offset + discharge + self.params.extension_factor
