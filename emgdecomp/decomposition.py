@@ -1005,7 +1005,8 @@ def compute_percentage_coincident(spike_train_1: np.ndarray, spike_train_2: np.n
         spike_train_1, spike_train_2 = spike_train_2, spike_train_1
     distances = minimum_distances(spike_train_1, spike_train_2)
     mode, _ = stats.mode(distances)
-    mode = mode[0]
+    if type(mode) == np.ndarray:
+        mode = mode[0]
     counts = np.sum((distances == mode) | (distances == mode + 1) | (distances == mode - 1))
     return counts / max(len(spike_train_1), len(spike_train_2))
 
