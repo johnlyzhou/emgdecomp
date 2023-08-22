@@ -623,6 +623,7 @@ class EmgDecomposition(object):
         peak_indices, _ = find_peaks(gamma, distance=peak_distance,
                                      height=self.params.improvement_iteration_min_peak_heights)
         gamma_peaks = gamma[peak_indices].reshape((-1, 1))
+        # print(gamma_peaks.shape)
 
         if threshold is None:
             if self.params.clustering_algorithm == 'kmeans':
@@ -683,6 +684,7 @@ class EmgDecomposition(object):
                         sil = silhouette_score(gamma_peaks_subset, labels_subset, metric='euclidean')
                         break
                 else:
+                    # print(gamma_peaks.shape, labels.shape)
                     sil = silhouette_score(gamma_peaks, labels, metric='euclidean')
 
                 if self._verbose:
@@ -767,6 +769,8 @@ class EmgDecomposition(object):
         timings, thresholds = self._detect_spikes(whitened_data, sources, thresholds=old_thresholds)
 
         # Remove units that detect less than x spikes - we consider them as artifact sources
+        if len(timings['source_idx']) == 0:
+            return np.empty((0,), dtype=self._firings_dtype())
         n_sources = np.max(timings['source_idx']) + 1
         keep_first_n_sources = 0 if old_thresholds is None else len(old_thresholds)
         n_events = {}
